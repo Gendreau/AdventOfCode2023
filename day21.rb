@@ -1,19 +1,19 @@
 base_garden, garden = File.open("./inputs/21.txt").readlines().map{|x|x.strip().split(//)}, []
-center = (7*base_garden.length())/2
-for i in 0..7   #1x1 graph => 1x7 graph
+step_limit, grid_size = 65+(131*2), 7
+center = (grid_size * base_garden.length())/2
+for i in 0..grid_size   #1x1 graph => 1x7 graph
     for i in 0..base_garden.length()-1
         garden.push(base_garden[i])
     end
 end
 for i in 0..garden.length()-1  #1x7 graph => 7x7 graph
-    garden[i] = garden[i]*7
+    garden[i] = garden[i]*grid_size
 end
 
 visited = Array.new(garden.length()){|i| Array.new(garden[0].length()) {|j| 999}} #visited[i][j] = min steps required to reach
 queue = [[0,[center,center]]] #[current_step, [y,x]]
 visited[center][center] = 0
 xdir, ydir = [1,0,-1,0], [0,1,0,-1]
-step_limit = 65+(131*2)
 while not queue.empty?
     s = queue.pop()
     step = s[0]
